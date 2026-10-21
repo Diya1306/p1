@@ -647,3 +647,38 @@ Note: The repository will be accessible after you push the image successfully.
 ---
 
 This file includes Git/GitHub practical notes and Docker practical commands for exam preparation and revision.
+1. Build the Docker image
+Run these commands from the folder containing your Dockerfile.
+docker build -t my-web-app .
+
+
+2. Login to Docker Hub
+docker login
+
+
+3. Tag the image
+docker tag my-web-app diya1306/my-web-app:latest
+
+
+4. Push the image to Docker Hub
+docker push diya1306/my-web-app:latest
+
+
+5. Pull the image from Docker Hub
+docker pull diya1306/my-web-app:latest
+
+
+6. Create and run a container
+docker run -d --name hub-container -p 8080:80 diya1306/my-web-app:latest
+
+
+7. Verify the result
+docker images
+docker ps
+
+
+Open http://localhost:8080 to test your application.
+
+Docker Hub repository: hub.docker.com/r/diya1306/my-web-app
+
+Note: The repository will be accessible after you push the image successfully.
