@@ -444,3 +444,154 @@ Practical exam tip: For every question, follow this sequence: check status → p
 ---
 
 This repository contains practical Git and GitHub viva notes for study and revision.
+
+# Docker Commands and Viva Notes
+
+## 1. Build and manage Docker images
+
+| Command | Purpose |
+|---|---|
+| `docker images` | List all local images |
+| `docker pull mysql:latest` | Download an image from Docker Hub |
+| `docker build -t my-app .` | Build an image using the Dockerfile in the current directory |
+| `docker build -t my-app -f Dockerfile2 .` | Build using a specific Dockerfile |
+| `docker image inspect my-app` | View image details |
+| `docker image rm my-app` | Remove an image |
+
+## 2. Create and manage containers
+
+| Command | Purpose |
+|---|---|
+| `docker run my-app` | Create and run a container |
+| `docker run --name my-container my-app` | Run with a custom container name |
+| `docker run -d --name my-container my-app` | Run in the background |
+| `docker run -it my-app bash` | Run interactively with a Bash shell, if available |
+| `docker ps` | List running containers |
+| `docker ps -a` | List all containers, including stopped ones |
+| `docker start my-container` | Start a stopped container |
+| `docker stop my-container` | Stop a running container |
+| `docker restart my-container` | Restart a container |
+| `docker rm my-container` | Remove a stopped container |
+| `docker logs my-container` | View container logs |
+| `docker exec -it my-container bash` | Open a shell inside a running container, if available |
+
+## 3. Port mapping — very important
+
+Syntax:
+
+```bash
+docker run -d --name my-container -p HOST_PORT:CONTAINER_PORT my-app
+```
+
+Example from the Tomcat practical:
+
+```bash
+docker run -d --name my-tc-container -p 8080:8080 my-tomcat-app
+```
+
+- Host port: `8080` — the port on your computer.
+- Container port: `8080` — the port inside the container.
+
+Check the container:
+
+```bash
+docker ps
+```
+
+Open the application in your browser:
+
+```text
+http://localhost:8080/webapp/
+```
+
+If port `8080` is already occupied on your computer, map another host port, such as `8085:8080`.
+
+## 4. Dockerfile commands
+
+These are instructions written inside a file named Dockerfile, not commands typed directly into PowerShell.
+
+| Instruction | Purpose |
+|---|---|
+| `FROM` | Select the base image |
+| `WORKDIR` | Set the working directory |
+| `COPY` | Copy files from host to image |
+| `ADD` | Copy files or extract archives; supports remote sources |
+| `RUN` | Execute commands while building the image |
+| `CMD` | Set the default command when the container starts |
+| `ENTRYPOINT` | Define the main executable |
+| `EXPOSE` | Document the intended container port |
+| `ENV` | Set environment variables |
+| `VOLUME` | Declare a mount point for persistent data |
+
+Example Dockerfile for the Java application shown in your PDF:
+
+```dockerfile
+FROM openjdk:11
+WORKDIR /app
+COPY HelloWorld.java .
+RUN javac HelloWorld.java
+CMD ["java", "HelloWorld"]
+```
+
+Build and run it:
+
+```bash
+docker build -t java-app .
+docker run --name java-container java-app
+```
+
+## 5. Docker Hub login and credentials
+
+| Command | Purpose |
+|---|---|
+| `docker login` | Log in to Docker Hub |
+| `docker login -u username` | Log in with a username |
+| `docker logout` | Log out |
+| `docker pull username/my-app:latest` | Download an image |
+| `docker push username/my-app:latest` | Upload an image |
+
+To upload your own image:
+
+```bash
+docker login
+docker build -t username/my-app:latest .
+docker push username/my-app:latest
+```
+
+Replace `username` with your Docker Hub username. If password authentication is unavailable, use a Docker Hub access token when prompted for a password.
+
+## 6. MySQL container commands
+
+The PDF demonstrates running MySQL with port mapping and a root password.
+
+```bash
+docker pull mysql:8.3.0
+```
+
+Run MySQL:
+
+```bash
+docker run -d --name mysql-db -p 3316:3306 -e MYSQL_ROOT_PASSWORD=mysql mysql:8.3.0
+```
+
+Check the running container:
+
+```bash
+docker ps
+```
+
+Here, host port `3316` maps to MySQL's container port `3306`. Connect using `localhost:3316` and the configured credentials.
+
+## Git credential helper reset example
+
+```bash
+@"protocol=https
+host=github.com
+"@ | git credential reject
+```
+
+This command tells Git to reject the stored credential entry for `github.com` in the credential helper.
+
+---
+
+This file includes Git/GitHub practical notes and Docker practical commands for exam preparation and revision.
