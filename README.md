@@ -592,6 +592,58 @@ host=github.com
 
 This command tells Git to reject the stored credential entry for `github.com` in the credential helper.
 
+## Publish a web app image to Docker Hub
+
+1. Build the Docker image
+
+```bash
+Run these commands from the folder containing your Dockerfile.
+docker build -t my-web-app .
+```
+
+2. Login to Docker Hub
+
+```bash
+docker login
+```
+
+3. Tag the image
+
+```bash
+docker tag my-web-app diya1306/my-web-app:latest
+```
+
+4. Push the image to Docker Hub
+
+```bash
+docker push diya1306/my-web-app:latest
+```
+
+5. Pull the image from Docker Hub
+
+```bash
+docker pull diya1306/my-web-app:latest
+```
+
+6. Create and run a container
+
+```bash
+docker run -d --name hub-container -p 8080:80 diya1306/my-web-app:latest
+```
+
+7. Verify the result
+
+```bash
+docker images
+docker ps
+```
+
+Open `http://localhost:8080` to test your application.
+
+Docker Hub repository: `hub.docker.com/r/diya1306/my-web-app`
+
+Note: The repository will be accessible after you push the image successfully.
+
 ---
 
 This file includes Git/GitHub practical notes and Docker practical commands for exam preparation and revision.
